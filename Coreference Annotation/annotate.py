@@ -23,7 +23,7 @@ def unique_worder(ori_text):
 
 
 #loading previous progress
-previousindexhandle=open("Project/currentindex.txt","r",encoding="utf8")
+previousindexhandle=open("currentindex.txt","r",encoding="utf8")
 previousindex=previousindexhandle.read()
 if(previousindex!=''):
     print("Previous progress loaded, currently at index:",int(previousindex))
@@ -38,7 +38,7 @@ previousindexhandle.close()
 
 #making an array from the input
 all_texts=[]
-gapdata=open("Project/gapdev_edit.tsv","r",encoding="utf8")
+gapdata=open("gapdev_edit.tsv","r",encoding="utf8")
 for row in csv.reader(gapdata, delimiter='\t', lineterminator='\n'):
     if(row[0]!='Original Text'):
         all_texts.append(row[0])
@@ -46,7 +46,7 @@ gapdata.close()
 
 
 #opening the output file
-tsvfile= open('Project/annotate.tsv', 'a', newline='')
+tsvfile= open('annotate.tsv', 'a', newline='')
 writer = csv.writer(tsvfile, delimiter='\t', lineterminator='\n')
 #writer.writerow(["Original Text","Unique-ified Text", "User annotations"])
 
@@ -68,7 +68,7 @@ for current_id_index in range(previousindex,100): #replace 50 with len(all_texts
             anno_line=True
             writer.writerow([all_texts[current_id_index],current_unique, full_annotation])
             #updating current progress 
-            currentindex=open("Project\currentindex.txt","r+",encoding="utf8")
+            currentindex=open("currentindex.txt","r+",encoding="utf8")
             currentindex.write(str(current_id_index))
             currentindex.close()
             break
