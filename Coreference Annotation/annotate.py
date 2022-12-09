@@ -2,6 +2,18 @@ import csv
 import re
 import nltk
 
+def arrayprinter(inparr):
+    inpstr=""
+    for i in inparr:
+        inpstr=inpstr+i+"@@"
+    inpstr=inpstr[:len(inpstr)-2]
+    return inpstr
+
+#test=["[She],[Her]","[Microsoft],[Windows]"]
+#print(arrayprinter(test))
+#quit()
+
+
 #fucntion to add all the numbers and stuff
 def unique_worder(ori_text):
     split_ori=nltk.word_tokenize(ori_text)
@@ -12,10 +24,11 @@ def unique_worder(ori_text):
             for j in range(i,len(split_ori)):
                 if(temp_word==split_ori[j] and i!=j):
                     curr_word_count=curr_word_count+1
-                    split_ori[j]="[" + split_ori[j]+"]_"+str(curr_word_count)
+                    split_ori[j]="[" + split_ori[j]+"]"+str(curr_word_count)
             if(curr_word_count!=1 and re.search("\[|\]|[0-9]+|_",split_ori[i])==None and re.search("[a-zA-Z]", split_ori[i])!=None ):
-                split_ori[i]="[" + split_ori[i]+"]_1"
-            "[a-zA-Z]"
+                split_ori[i]="[" + split_ori[i]+"]1"
+            elif(curr_word_count==1):
+                split_ori[i]="[" + split_ori[i]+"]"
     outputter=""
     for wordd in split_ori:
         outputter=outputter+wordd.strip() + " "
@@ -48,7 +61,6 @@ gapdata.close()
 #opening the output file
 tsvfile= open('annotate.tsv', 'a', newline='')
 writer = csv.writer(tsvfile, delimiter='\t', lineterminator='\n')
-#writer.writerow(["Original Text","Unique-ified Text", "User annotations"])
 
 
 
@@ -64,9 +76,10 @@ for current_id_index in range(previousindex,100): #replace 50 with len(all_texts
         print('TYPE ? to see the original text:')
         print('TYPE THE COREF CHAIN. Type ! to move onto the next text. (CTRL+C to exit):')
         anno_line = input()
-        if(anno_line=='!'): #this is the only way you can stop annotating a line?
+        if(anno_line=='!'): #this is the only way you can stop annotating a line
             anno_line=True
-            writer.writerow([all_texts[current_id_index],current_unique, full_annotation])
+            
+            writer.writerow([all_texts[current_id_index],current_unique, arrayprinter(full_annotation)])
             #updating current progress 
             currentindex=open("currentindex.txt","r+",encoding="utf8")
             currentindex.write(str(current_id_index))
@@ -81,24 +94,24 @@ for current_id_index in range(previousindex,100): #replace 50 with len(all_texts
             if(re.search(",",anno_line)!=None):
                 for annotation_word in anno_line.split(','):
                     if(annotation_word not in unique_worder(all_texts[current_id_index])):
-                        print("Rejected. " + annotation_word + "is not in the list!")
+                        print("\033[91m REJECTED. " + annotation_word + "is not in the list!\033[37m")
                         anno_test=False
                         break
                     elif(annotation_word==" "):
-                        print("Rejected. A single whitesplace is not a viable option.")
+                        print("\033[91m REJECTED. A single whitesplace is not a viable option.\033[37m")
                         anno_test=False
                         break
                     else:
                         if(unique_worder(all_texts[current_id_index]).index(annotation_word)>previous_index):
                             previous_index=unique_worder(all_texts[current_id_index]).index(annotation_word)
                         else:
-                            print("Rejected. Put your words in the right order.")
+                            print("\033[91m REJECTED. Put your words in the right order.\033[37m")
                             anno_test=False
                             break
                 if(anno_test==True):
                     full_annotation.append(anno_line)
             else:
-                print("Rejected. You need to use commas to seperate the words and have at least two words in a chain.")
+                print("\033[91m REJECTED. You need to use commas to seperate the words and have at least two words in a chain.\033[37m")
 tsvfile.close()
 
 
