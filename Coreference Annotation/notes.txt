@@ -15,3 +15,4 @@ Towards the end of Edward's reign, Alice was accused of making his life a misery
 Alice Perrers is the protagonist of Emma Campion's novel, The King's Mistress. She appears in Anya Seton's novel, Katherine.	Alice Perrers is the protagonist of Emma Campion ['s]_1 [novel]_1 , The King ['s]_2 Mistress . She appears in Anya Seton ['s]_3 [novel]_2 , Katherine . 	"[""Alice Perrers,the protagonist of Emma Campion ['s]_1 [novel]_1,The King ['s]_2 Mistress,She,Katherine""]"
 
 from line 26 on, ive decided to put they with sally, her, she etc
+added in docs
