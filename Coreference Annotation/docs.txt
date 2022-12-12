@@ -1,0 +1,25 @@
+SITUATION 1
+
+INCLUDE:
+John, a linguist
+John is the linguist at the party
+
+DON’T INCLUDE
+John is a Linguist
+
+SITUATION 2
+
+Mary went to the park. John also went to the park. They had a fun time
+
+INCLUDE:
+Mary,they
+John,they
+
+SITUATION 3
+
+Sally is cute. Her boyfriend is Mark. They like to dance
+
+Sally,Her,They
+Her boyfriend,Mark,They
+
+
